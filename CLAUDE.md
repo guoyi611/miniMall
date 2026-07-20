@@ -165,7 +165,7 @@ Category ──< Product
 ### 商品
 | 路由 | 方法 | 说明 |
 |------|------|------|
-| `/api/products` | GET | 商品列表（搜索 ?q=, 分类 ?categoryId=, 分页 ?page=&pageSize=） |
+| `/api/products` | GET | 商品列表（搜索 ?q=, 分类 ?category=, 分页 ?page=&pageSize=） |
 | `/api/products/[id]` | GET | 商品详情 |
 
 ### 分类
@@ -251,9 +251,10 @@ Category ──< Product
 | 组件 | 说明 |
 |------|------|
 | `Header.tsx` | 导航栏（Logo、搜索框、购物车图标、用户菜单、会员标签） |
-| `ProductCard.tsx` | 商品卡片（封面图、名称、价格、会员价对比） |
+| `ProductCard.tsx` | 商品卡片（封面图、名称、价格、会员价对比、库存状态） |
 | `ProductGrid.tsx` | 商品网格列表 |
-| `Pagination.tsx` | 分页 |
+| `Pagination.tsx` | 分页（智能省略号折叠，保留搜索和分类参数） |
+| `AddToCartButton.tsx` | 加入购物车按钮（Client 端，处理未登录→跳转登录、购物车未实现→友好提示） |
 | `CartDrawer.tsx` | 侧滑购物车（显示折扣提示） |
 | `MembershipBadge.tsx` | 会员等级徽章（颜色 + 文案） |
 | `PriceDisplay.tsx` | 价格对比展示（原价划线 + 会员价） |
@@ -270,7 +271,7 @@ Category ──< Product
 4. **模拟支付** — 下单后自动标记 PAID，不走真实支付通道
 5. **会员快照** — Order 记录下单时的 membershipLevel，升级不影响历史订单
 6. **服务端定价** — 客户端不参与任何价格/折扣计算
-7. **占位图片** — picsum.photos 随机占位图
+7. **占位图片** — 商品有图用原图，无图用 picsum.photos 随机占位图（如 `https://picsum.photos/seed/{id}/400/400`）
 8. **Prisma 7 driver adapter** — 必须通过 `@prisma/adapter-libsql` 连接 SQLite，不支持旧版 `prisma-client-js`
 
 ---
@@ -313,10 +314,10 @@ const prisma = new PrismaClient({ adapter });
 |------|------|------|
 | 1 | 项目初始化 + 依赖安装 | ✅ 完成 |
 | 2 | Prisma schema + 种子数据 | ✅ 完成 |
-| 3 | 工具层 (lib/prisma, auth, membership, utils, types) | ⏳ |
-| 4 | API 路由 | ⬜ |
-| 5 | UI 组件 | ⬜ |
-| 6 | 前端页面 | ⬜ |
+| 3 | 工具层 (lib/prisma, auth, membership, utils, types) | ✅ 完成 |
+| 4 | API 路由（商品模块 + 分类） | ✅ 完成 |
+| 5 | UI 组件（ProductCard, Pagination, AddToCartButton） | ✅ 完成 |
+| 6 | 前端页面（首页、商品详情） | ✅ 完成 |
 | 7 | middleware 路由保护 | ⬜ |
 | 8 | 集成测试与联调 | ⬜ |
 

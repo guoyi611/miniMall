@@ -42,9 +42,10 @@ export async function comparePassword(
 
 /** 返回 Set-Cookie 头字符串（用于 Response） */
 export function setAuthCookie(token: string): string {
+  const secure = process.env.NODE_ENV === "production" ? "; Secure" : "";
   return `${TOKEN_COOKIE_NAME}=${token}; HttpOnly; Path=/; Max-Age=${
     7 * 24 * 60 * 60
-  }; SameSite=Lax`;
+  }; SameSite=Lax${secure}`;
 }
 
 /** 返回清除 Cookie 的头字符串 */
