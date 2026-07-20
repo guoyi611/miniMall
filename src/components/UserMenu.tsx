@@ -64,6 +64,14 @@ export function UserMenu({ user, cartCount }: UserMenuProps) {
       </Link>
 
       {/* 用户信息 */}
+      {user.role === "ADMIN" && (
+        <Link
+          href="/admin"
+          className="text-blue-600 hover:text-blue-800 transition-colors font-medium"
+        >
+          后台
+        </Link>
+      )}
       <Link
         href="/orders"
         className="text-gray-600 hover:text-gray-900 transition-colors"
