@@ -3,8 +3,10 @@ import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
 
-const JWT_SECRET =
-  process.env.JWT_SECRET || "mini-mall-dev-secret-change-in-production";
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+  throw new Error("JWT_SECRET environment variable is required");
+}
 const JWT_EXPIRES_IN = "7d";
 const TOKEN_COOKIE_NAME = "token";
 
@@ -98,7 +100,8 @@ export async function getCurrentUser() {
  * 返回 Set-Cookie 头字符串。
  */
 export function clearSession(): string {
-  return `${TOKEN_COOKIE_NAME}=; HttpOnly; Path=/; Max-Age=0; SameSite=Lax`;
+  const secure = process.env.NODE_ENV === "production" ? "; Secure" : "";
+  return `${TOKEN_COOKIE_NAME}=; HttpOnly; Path=/; Max-Age=0; SameSite=Lax${secure}`;
 }
 
 // ─── 兼容层（已有代码引用） ───────────────────────────────────────────────
