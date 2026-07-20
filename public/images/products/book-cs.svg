@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <rect x="55" y="30" width="90" height="120" rx="6" fill="#7950f2" stroke="#6741d9" stroke-width="2"/>
+  <rect x="58" y="35" width="84" height="90" rx="3" fill="#f3f0ff"/>
+  <rect x="68" y="48" width="24" height="18" rx="3" fill="#b197fc"/>
+  <rect x="96" y="48" width="24" height="18" rx="3" fill="#b197fc"/>
+  <rect x="68" y="70" width="52" height="8" rx="4" fill="#d0bfff"/>
+  <rect x="68" y="82" width="42" height="6" rx="3" fill="#d0bfff"/>
+  <rect x="68" y="92" width="35" height="6" rx="3" fill="#d0bfff"/>
+  <circle cx="100" cy="72" r="16" fill="none" stroke="#b197fc" stroke-width="2"/>
+  <line x1="100" y1="60" x2="100" y2="84" stroke="#b197fc" stroke-width="1.5"/>
+  <line x1="88" y1="72" x2="112" y2="72" stroke="#b197fc" stroke-width="1.5"/>
+  <rect x="58" y="112" width="84" height="34" rx="2" fill="#6741d9"/>
+  <text x="100" y="134" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#fff" font-weight="bold">CS:APP</text>
+</svg>

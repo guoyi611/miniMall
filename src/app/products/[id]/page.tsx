@@ -35,7 +35,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
   }
 
   const images = parseImages(product.images);
-  const mainImage = images[0] || `https://picsum.photos/seed/${product.id}/600/600`;
+  const mainImage = images[0] || "/images/products/default.svg";
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <rect x="55" y="45" width="90" height="90" rx="10" fill="#5c3d2e" stroke="#4a2c1a" stroke-width="2"/>
+  <rect x="55" y="45" width="90" height="20" rx="10" fill="#7a5038"/>
+  <rect x="52" y="40" width="96" height="12" rx="5" fill="#8B6914" stroke="#7a5a10" stroke-width="1.5"/>
+  <ellipse cx="75" cy="95" rx="8" ry="10" fill="#3d2010"/>
+  <ellipse cx="100" cy="90" rx="9" ry="11" fill="#4a2c1a"/>
+  <ellipse cx="120" cy="95" rx="7" ry="9" fill="#3d2010"/>
+  <ellipse cx="88" cy="100" rx="7" ry="9" fill="#4a2c1a"/>
+  <ellipse cx="110" cy="102" rx="8" ry="10" fill="#3d2010"/>
+  <ellipse cx="80" cy="108" rx="6" ry="8" fill="#4a2c1a"/>
+  <ellipse cx="95" cy="110" rx="6" ry="7" fill="#3d2010"/>
+  <text x="100" y="118" text-anchor="middle" font-size="16" fill="#d4a574" font-weight="bold">☕</text>
+</svg>

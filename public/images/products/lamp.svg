@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <rect x="85" y="160" width="30" height="8" rx="3" fill="#5c5c5c"/>
+  <rect x="88" y="140" width="24" height="22" rx="3" fill="#8c8c8c"/>
+  <line x1="100" y1="140" x2="100" y2="70" stroke="#6c6c6c" stroke-width="3"/>
+  <path d="M50 70 L100 30 L150 70 Z" fill="#ff922b" stroke="#e67700" stroke-width="2"/>
+  <path d="M50 70 L150 70 L140 85 L60 85 Z" fill="#ffc078" opacity="0.4"/>
+  <path d="M55 70 L100 35 L145 70" fill="none" stroke="#ffd43b" stroke-width="1.5" opacity="0.5"/>
+</svg>

@@ -58,6 +58,26 @@ async function main() {
     }),
   ]);
 
+  // ─── 商品图片映射 ────────────────────────────────────────────────────────
+  const imageMap: Record<string, string> = {
+    "iPhone 16 Pro": "smartphone.svg",
+    "MacBook Air M4": "laptop.svg",
+    "AirPods Pro 3": "earbuds.svg",
+    "机械键盘 K99": "keyboard.svg",
+    "纯棉T恤 白色": "tshirt.svg",
+    "直筒牛仔裤": "jeans.svg",
+    "连帽卫衣 灰色": "hoodie.svg",
+    "羊毛大衣 黑色": "coat.svg",
+    "北欧台灯": "lamp.svg",
+    "乳胶枕": "pillow.svg",
+    "不锈钢保温杯": "thermos.svg",
+    "编程珠玑 第2版": "book-programming.svg",
+    "深入理解计算机系统": "book-cs.svg",
+    "设计模式 可复用面向对象软件的基础": "book-design.svg",
+    "混合坚果 500g": "nuts.svg",
+    "冻干咖啡 100g": "coffee.svg",
+  };
+
   // ─── 商品 ──────────────────────────────────────────────────────────────────
   const products = [
     { name: "iPhone 16 Pro", price: 8999, stock: 50, category: categories[0] },
@@ -89,7 +109,7 @@ async function main() {
         slug: `${slug}-${Math.random().toString(36).slice(2, 6)}`,
         description: `${product.name} — 精选商品，品质保证。`,
         price: product.price,
-        images: JSON.stringify([`https://picsum.photos/seed/${encodeURIComponent(slug)}/400/400`]),
+        images: JSON.stringify([`/images/products/${imageMap[product.name]}`]),
         stock: product.stock,
         categoryId: product.category.id,
       },

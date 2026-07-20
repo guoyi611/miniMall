@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <rect x="30" y="110" width="140" height="12" rx="3" fill="#C0C0C0"/>
+  <rect x="45" y="118" width="110" height="6" rx="2" fill="#A0A0A0"/>
+  <rect x="35" y="30" width="130" height="82" rx="6" fill="#3a3a3a"/>
+  <rect x="41" y="36" width="118" height="66" rx="2" fill="#5DADE2"/>
+  <rect x="55" y="48" width="90" height="8" rx="4" fill="#fff" opacity="0.9"/>
+  <rect x="60" y="62" width="70" height="6" rx="3" fill="#fff" opacity="0.6"/>
+  <rect x="60" y="74" width="55" height="6" rx="3" fill="#fff" opacity="0.6"/>
+  <rect x="41" y="36" width="118" height="66" rx="2" fill="url(#screenGrad)"/>
+  <defs>
+    <linearGradient id="screenGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#667eea"/>
+      <stop offset="100%" stop-color="#764ba2"/>
+    </linearGradient>
+  </defs>
+</svg>
