@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
+import { prisma } from "@/lib/prisma";
 
 const JWT_SECRET =
   process.env.JWT_SECRET || "mini-mall-dev-secret-change-in-production";
@@ -9,66 +10,103 @@ const TOKEN_COOKIE_NAME = "token";
 
 // ─── 类型 ──────────────────────────────────────────────────────────────────
 
-export interface JwtPayload {
+export interface SessionPayload {
   userId: string;
+  role: string;
+}
+
+interface JwtPayload extends SessionPayload {
   iat?: number;
   exp?: number;
 }
 
-// ─── JWT ────────────────────────────────────────────────────────────────────
-
-export function signToken(userId: string): string {
-  return jwt.sign({ userId }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
-}
-
-export function verifyToken(token: string): JwtPayload {
-  return jwt.verify(token, JWT_SECRET) as JwtPayload;
-}
-
 // ─── 密码 ───────────────────────────────────────────────────────────────────
 
+/** 用 bcryptjs 哈希密码（cost=10） */
 export async function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, 10);
 }
 
-export async function comparePassword(
+/** 验证密码是否匹配 */
+export async function verifyPassword(
   password: string,
   hash: string
 ): Promise<boolean> {
   return bcrypt.compare(password, hash);
 }
 
-// ─── Cookie 操作 ────────────────────────────────────────────────────────────
+/** @deprecated 使用 verifyPassword 代替 */
+export const comparePassword = verifyPassword;
 
-/** 返回 Set-Cookie 头字符串（用于 Response） */
-export function setAuthCookie(token: string): string {
+// ─── Session 管理 ──────────────────────────────────────────────────────────
+
+/**
+ * 创建会话 — 把 userId 和 role 写入 httpOnly Cookie。
+ * 返回 Set-Cookie 头字符串，用于 Response.headers.append('Set-Cookie', ...)
+ */
+export function setSession(userId: string, role: string): string {
+  const token = jwt.sign({ userId, role }, JWT_SECRET, {
+    expiresIn: JWT_EXPIRES_IN,
+  });
   const secure = process.env.NODE_ENV === "production" ? "; Secure" : "";
   return `${TOKEN_COOKIE_NAME}=${token}; HttpOnly; Path=/; Max-Age=${
     7 * 24 * 60 * 60
   }; SameSite=Lax${secure}`;
 }
 
-/** 返回清除 Cookie 的头字符串 */
-export function removeAuthCookie(): string {
-  return `${TOKEN_COOKIE_NAME}=; HttpOnly; Path=/; Max-Age=0; SameSite=Lax`;
-}
-
-/** 在 API 路由中从 cookie 获取 token */
-export async function getTokenFromCookies(): Promise<string | undefined> {
-  const cookieStore = await cookies();
-  return cookieStore.get(TOKEN_COOKIE_NAME)?.value;
-}
-
-/** 获取当前认证用户 ID（API 路由中使用） */
-export async function getAuthUserId(): Promise<string | null> {
+/**
+ * 从 Cookie 读取当前会话信息。
+ * 返回 null 表示未登录或 token 无效。
+ */
+export async function getSession(): Promise<SessionPayload | null> {
   try {
-    const token = await getTokenFromCookies();
+    const cookieStore = await cookies();
+    const token = cookieStore.get(TOKEN_COOKIE_NAME)?.value;
     if (!token) return null;
-    const payload = verifyToken(token);
-    return payload.userId;
+    const payload = jwt.verify(token, JWT_SECRET) as JwtPayload;
+    if (!payload.userId || !payload.role) return null;
+    return { userId: payload.userId, role: payload.role };
   } catch {
     return null;
   }
+}
+
+/**
+ * 获取当前登录用户的完整信息（不含密码）。
+ * 返回 null 表示未登录。
+ */
+export async function getCurrentUser() {
+  const session = await getSession();
+  if (!session) return null;
+
+  return prisma.user.findUnique({
+    where: { id: session.userId },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      role: true,
+      membershipLevel: true,
+      totalSpent: true,
+      createdAt: true,
+    },
+  });
+}
+
+/**
+ * 清除 Cookie（退出登录）。
+ * 返回 Set-Cookie 头字符串。
+ */
+export function clearSession(): string {
+  return `${TOKEN_COOKIE_NAME}=; HttpOnly; Path=/; Max-Age=0; SameSite=Lax`;
+}
+
+// ─── 兼容层（已有代码引用） ───────────────────────────────────────────────
+
+/** @deprecated 使用 getSession() 代替 */
+export async function getAuthUserId(): Promise<string | null> {
+  const session = await getSession();
+  return session?.userId ?? null;
 }
 
 /** 从 Request 对象中提取 token（用于 middleware） */
