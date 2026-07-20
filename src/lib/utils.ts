@@ -45,7 +45,9 @@ export function parseImages(images: string): string[] {
 /** 获取商品首图 */
 export function getFirstImage(images: string, fallback?: string): string {
   const arr = parseImages(images);
-  return arr.length > 0 ? arr[0] : `https://picsum.photos/seed/${fallback || "default"}/400/400`;
+  if (arr.length > 0) return arr[0];
+  const seed = encodeURIComponent(fallback || "default");
+  return `https://picsum.photos/seed/${seed}/400/400`;
 }
 
 // ─── 订单状态 ───────────────────────────────────────────────────────────────

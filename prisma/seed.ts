@@ -89,7 +89,7 @@ async function main() {
         slug: `${slug}-${Math.random().toString(36).slice(2, 6)}`,
         description: `${product.name} — 精选商品，品质保证。`,
         price: product.price,
-        images: JSON.stringify([`https://picsum.photos/seed/${slug}/400/400`]),
+        images: JSON.stringify([`https://picsum.photos/seed/${encodeURIComponent(slug)}/400/400`]),
         stock: product.stock,
         categoryId: product.category.id,
       },
